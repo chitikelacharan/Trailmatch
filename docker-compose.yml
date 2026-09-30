@@ -1,0 +1,29 @@
+services:
+  api:
+    build: .
+    ports: ["8000:8000"]
+    environment:
+      ENV: production
+      DATABASE_URL: postgresql+psycopg2://trial:trial@db:5432/trialmatch
+      REDIS_URL: redis://redis:6379/0
+      JWT_SECRET: ${JWT_SECRET:?set JWT_SECRET}
+      DATA_KEY: ${DATA_KEY:?set DATA_KEY}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD:?set ADMIN_PASSWORD}
+      COORDINATOR_PASSWORD: ${COORDINATOR_PASSWORD:?set COORDINATOR_PASSWORD}
+      AUDITOR_PASSWORD: ${AUDITOR_PASSWORD:?set AUDITOR_PASSWORD}
+    depends_on: [db, redis]
+    restart: unless-stopped
+  db:
+    image: postgres:16-alpine
+    environment: {POSTGRES_USER: trial, POSTGRES_PASSWORD: trial, POSTGRES_DB: trialmatch}
+    volumes: [pgdata:/var/lib/postgresql/data]
+  redis:
+    image: redis:7-alpine
+  prometheus:
+    image: prom/prometheus:latest
+    volumes: ["./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml", "./monitoring/alerts.yml:/etc/prometheus/alerts.yml"]
+    ports: ["9090:9090"]
+  grafana:
+    image: grafana/grafana:latest
+    ports: ["3000:3000"]
+volumes: {pgdata: {}}

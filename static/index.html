@@ -1,0 +1,212 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>TrialMatch – Clinical Trial Eligibility</title>
+<style>
+:root{--bg:#f6f8fa;--card:#fff;--tx:#1b2430;--mut:#667085;--bd:#e4e7ec;--ok:#067647;--okb:#dcfae6;--rv:#93370d;--rvb:#fef0c7;--no:#b42318;--nob:#fee4e2;--pri:#175cd3}
+@media(prefers-color-scheme:dark){:root{--bg:#0f141a;--card:#182029;--tx:#e6eaf0;--mut:#98a2b3;--bd:#2a3542;--okb:#0b3d2a;--rvb:#4a3410;--nob:#4d1f1b;--ok:#75e0a7;--rv:#fec84b;--no:#fda29b;--pri:#84adff}}
+*{box-sizing:border-box}body{margin:0;font:14px/1.5 system-ui,sans-serif;background:var(--bg);color:var(--tx)}
+header{display:flex;justify-content:space-between;align-items:center;padding:12px 20px;background:var(--card);border-bottom:1px solid var(--bd)}
+h1{font-size:17px;margin:0}main{max-width:1150px;margin:18px auto;padding:0 16px}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:10px;padding:16px;margin-bottom:14px}
+input,select,button{font:inherit;padding:8px 10px;border-radius:7px;border:1px solid var(--bd);background:var(--card);color:var(--tx)}
+button{background:var(--pri);color:#fff;border:0;cursor:pointer;transition:opacity .15s}
+button:disabled{opacity:0.6;cursor:not-allowed}
+button.sec{background:transparent;color:var(--pri);border:1px solid var(--pri)}
+button.sec:hover{background:rgba(23,92,211,0.06)}
+table{width:100%;border-collapse:collapse}th,td{text-align:left;padding:8px;border-bottom:1px solid var(--bd);vertical-align:top}tr.row{cursor:pointer}tr.row:hover{background:var(--bg)}
+.pill{padding:2px 9px;border-radius:99px;font-size:12px;font-weight:600}.ELIGIBLE{background:var(--okb);color:var(--ok)}.NEEDS_REVIEW{background:var(--rvb);color:var(--rv)}.INELIGIBLE{background:var(--nob);color:var(--no)}
+.TRUE,.FALSE,.UNKNOWN,.CONFLICT{font-size:11px;padding:1px 6px;border-radius:4px;border:1px solid var(--bd)}.CONFLICT{border-color:var(--no);color:var(--no)}.UNKNOWN{border-color:var(--rv);color:var(--rv)}
+.ev{color:var(--mut);font-size:12px;margin:2px 0 0 12px;border-left:2px solid var(--bd);padding-left:8px}.mut{color:var(--mut)}.flex{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.miss{background:var(--rvb);padding:8px 10px;border-radius:7px;margin:4px 0}.hid{display:none}.stat{font-size:22px;font-weight:700}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px}
+.notify-ok{background:var(--okb);color:var(--ok);border:1px solid var(--ok);padding:10px 14px;border-radius:8px;font-weight:500;margin-bottom:14px}
+.notify-err{background:var(--nob);color:var(--no);border:1px solid var(--no);padding:10px 14px;border-radius:8px;font-weight:500;margin-bottom:14px}
+.notify-info{background:var(--card);color:var(--pri);border:1px solid var(--pri);padding:10px 14px;border-radius:8px;font-weight:500;margin-bottom:14px}
+.quick-btn{padding:3px 8px;font-size:12px;border-radius:5px;cursor:pointer}
+</style></head><body>
+<header><h1>🧪 TrialMatch <span class="mut">· explainable eligibility screening</span></h1><div id="who" class="flex"></div></header>
+<main>
+<div id="login" class="card" style="max-width:380px;margin:60px auto"><h3>Sign in</h3>
+<div class="flex" style="flex-direction:column;align-items:stretch"><input id="u" placeholder="username" value="coordinator"><input id="p" type="password" placeholder="password" value="Coord#12345"></div>
+<p style="margin:10px 0 4px 0"><button onclick="login(this)" style="width:100%">Sign in</button></p>
+<div id="err" style="color:var(--no);font-size:13px;min-height:18px;margin-bottom:8px"></div>
+<div style="font-size:12px;margin-top:10px;border-top:1px solid var(--bd);padding-top:10px">
+  <div class="mut" style="margin-bottom:6px">Quick select demo role:</div>
+  <div class="flex">
+    <button type="button" class="sec quick-btn" onclick="fillLogin('coordinator','Coord#12345')">Coordinator</button>
+    <button type="button" class="sec quick-btn" onclick="fillLogin('auditor','Audit#12345')">Auditor</button>
+    <button type="button" class="sec quick-btn" onclick="fillLogin('admin','Admin#12345')">Admin</button>
+  </div>
+</div>
+</div>
+<div id="app" class="hid">
+<div id="status-bar" class="hid"></div>
+<div class="card"><div class="flex"><select id="trial"></select><input id="asof" type="date"><button onclick="runBatch(this)">Match all patients</button>
+<button class="sec" onclick="seed(this)">Load sample data</button><button class="sec" onclick="evalRun(this)">Run evaluation</button><button class="sec" onclick="audit(this)">Audit log</button></div></div>
+<div id="counts" class="grid"></div>
+<div class="card"><table id="results"><thead><tr><th>Patient</th><th>Decision</th><th>Conf.</th><th>Criteria</th><th>Missing</th><th>Why</th></tr></thead><tbody></tbody></table></div>
+<div id="detail" class="card hid"></div><div id="extra" class="card hid"></div></div></main>
+<script>
+let T="";const $=id=>document.getElementById(id);
+const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
+function notify(msg, type="info"){
+  const s=$("status-bar");
+  if(!s) return;
+  s.className = type==="ok"?"notify-ok":type==="err"?"notify-err":"notify-info";
+  s.innerHTML = esc(msg);
+  s.classList.remove("hid");
+  if(type==="ok" || type==="info"){
+    setTimeout(()=>{ if(s.innerHTML === esc(msg)) s.classList.add("hid"); }, 7000);
+  }
+}
+
+function fillLogin(u, p){
+  $("u").value = u;
+  $("p").value = p;
+  $("err").textContent = "";
+}
+
+function logout(){
+  T = "";
+  $("app").classList.add("hid");
+  $("login").classList.remove("hid");
+  $("who").innerHTML = "";
+  $("detail").classList.add("hid");
+  $("extra").classList.add("hid");
+  $("results").tBodies[0].innerHTML = "";
+  $("counts").innerHTML = "";
+}
+
+async function api(path,opt={}){
+  const r=await fetch(path,{...opt,headers:{"Content-Type":"application/json",...(T?{Authorization:"Bearer "+T}:{})}});
+  const j=await r.json().catch(()=>({}));
+  if(!r.ok){
+    const msg = typeof j.detail==="string"?j.detail:(j.detail?JSON.stringify(j.detail):`HTTP error ${r.status}`);
+    throw new Error(msg);
+  }
+  return j;
+}
+
+async function login(btn){
+  try{
+    if(btn) btn.disabled=true;
+    $("err").textContent = "";
+    const j=await api("/auth/login",{method:"POST",body:JSON.stringify({username:$("u").value,password:$("p").value})});
+    T=j.access_token;
+    $("login").classList.add("hid");
+    $("app").classList.remove("hid");
+    $("who").innerHTML=`<span class="mut">${esc($("u").value)} (${j.role})</span> <button class="sec quick-btn" onclick="logout()" style="margin-left:8px">Sign out</button>`;
+    $("asof").value=new Date().toISOString().slice(0,10);
+    await loadTrials();
+    await runBatch();
+  }catch(e){
+    $("err").textContent=e.message;
+  }finally{
+    if(btn) btn.disabled=false;
+  }
+}
+
+async function loadTrials(){
+  const j=await api("/trials");
+  $("trial").innerHTML=j.trials.map(t=>`<option value="${esc(t.id)}">${esc(t.id)} – ${esc(t.title)}</option>`).join("")||"<option value=''>no trials – load sample data</option>";
+}
+
+async function seed(btn){
+  try{
+    if(btn) btn.disabled=true;
+    notify("Loading sample patients and trial...", "info");
+    const r=await fetch("/static/sample_patients.json");
+    const pats=await r.json();
+    const t=await (await fetch("/static/sample_trial.json")).json();
+    const resPats = await api("/patients",{method:"POST",body:JSON.stringify({patients:pats})});
+    const resTrial = await api("/trials",{method:"POST",body:JSON.stringify(t)});
+    await loadTrials();
+    $("asof").value="2026-09-30";
+    notify(`✅ Loaded ${resPats.ingested} sample patients and trial ${resTrial.id}! Matching all patients...`, "ok");
+    await runBatch();
+  }catch(e){
+    notify("❌ Failed to load sample data: " + e.message, "err");
+  }finally{
+    if(btn) btn.disabled=false;
+  }
+}
+
+async function runBatch(btn){
+  try{
+    if(btn) btn.disabled=true;
+    const trialVal = $("trial").value;
+    if(!trialVal){
+      notify("Please load sample data or select a trial first.", "info");
+      return;
+    }
+    const j=await api("/match/batch",{method:"POST",body:JSON.stringify({trial_id:trialVal,as_of:$("asof").value})});
+    $("counts").innerHTML=Object.entries(j.counts).map(([k,v])=>`<div class="card"><div class="stat">${v}</div><span class="pill ${k}">${k}</span></div>`).join("");
+    $("results").tBodies[0].innerHTML=j.results.map(r=>`<tr class="row" onclick="show(${r.match_id})"><td><b>${esc(r.patient_id)}</b></td><td><span class="pill ${r.decision}">${r.decision}</span>${r.likely_ineligible?' <span class="mut">(likely no)</span>':''}</td><td>${r.confidence}</td><td>${r.criteria_satisfied}</td><td>${r.n_missing||""}</td><td class="mut">${esc(r.summary.slice(0,150))}…</td></tr>`).join("");
+    $("detail").classList.add("hid");
+    notify(`✅ Matched ${j.results.length} patients for trial ${j.trial_id}`, "ok");
+  }catch(e){
+    notify("❌ Batch matching failed: " + e.message, "err");
+  }finally{
+    if(btn) btn.disabled=false;
+  }
+}
+
+async function show(id){
+  try{
+    const m=await api("/matches/"+id);
+    const d=$("detail");
+    d.classList.remove("hid");
+    d.innerHTML=`<div class="flex"><h3 style="margin:0">${esc(m.patient_id)} → ${esc(m.trial_id)}</h3><span class="pill ${m.decision}">${m.decision}</span><span class="mut">confidence ${m.confidence} · engine ${m.engine_version} · as of ${m.as_of}</span></div>
+    <p>${esc(m.summary)}</p>${m.missing_evidence.length?`<h4>Missing evidence to finalize</h4>`+m.missing_evidence.map(x=>`<div class="miss"><b>${esc(x.item)}</b> <span class="mut">(${x.criterion_id}) — ${esc(x.why)}; source: ${esc(x.suggested_source)}</span></div>`).join(""):""}
+    <h4>Criterion-by-criterion reasoning</h4><table>${m.criteria.map(c=>`<tr><td><b>${c.id}</b><br><span class="mut">${c.type}</span></td><td>${esc(c.text)}${c.screening_only?' <i class="mut">(verify at screening)</i>':''}<div>${esc(c.rationale)}</div>${c.evidence.map(e=>`<div class="ev">[${e.source}${e.ref?": "+esc(e.ref):""}${e.date?" · "+e.date:""}] “${esc(e.snippet)}”</div>`).join("")}${c.flags.length?`<div class="mut">flags: ${c.flags.join(", ")}</div>`:""}</td><td><span class="${c.state}">${c.state}</span><br><span class="mut">${c.confidence}</span></td></tr>`).join("")}</table>
+    ${m.data_quality.length?`<h4>Data-quality warnings</h4><ul>${m.data_quality.map(w=>`<li>${esc(w)}</li>`).join("")}</ul>`:""}
+    <div class="flex"><button onclick="rev(${id},'confirmed')">Confirm for screening</button><button class="sec" onclick="rev(${id},'info_requested')">Request info</button><button class="sec" onclick="rev(${id},'rejected')">Reject</button></div><p class="mut">Decision support only — a qualified human must sign off.</p>`;
+    d.scrollIntoView({behavior:"smooth"});
+  }catch(e){
+    notify("❌ Failed to load match details: " + e.message, "err");
+  }
+}
+
+async function rev(id,s){
+  try{
+    const note=prompt("Reviewer note")||"";
+    await api(`/matches/${id}/review`,{method:"POST",body:JSON.stringify({status:s,note})});
+    notify(`Recorded review: ${s}`, "ok");
+  }catch(e){
+    notify("❌ Review recording failed: " + e.message, "err");
+  }
+}
+
+async function evalRun(btn){
+  try{
+    if(btn) btn.disabled=true;
+    notify("Running gold-set evaluation & safety gate...", "info");
+    const m=await api("/evaluate",{method:"POST"});
+    const e=$("extra");
+    e.classList.remove("hid");
+    e.innerHTML=`<h3>Evaluation on gold set <span class="pill ${m.gate_passed?"ELIGIBLE":"INELIGIBLE"}">${m.gate_passed?"GATE PASSED":"GATE FAILED"}</span></h3><div class="grid">${[["Accuracy",m.decision_accuracy],["False-positive rate",m.eligible_false_positive_rate],["Unsafe errors",m.unsafe_errors],["Missing-evid. recall",m.missing_evidence_recall],["Criterion acc.",m.criterion_state_accuracy],["Grounding fails",m.grounding_failures]].map(([k,v])=>`<div><div class="stat">${v}</div><span class="mut">${k}</span></div>`).join("")}</div>`;
+    notify(`✅ Evaluation complete: Accuracy ${(m.decision_accuracy*100).toFixed(0)}%, Gate: ${m.gate_passed ? "PASSED" : "FAILED"}`, "ok");
+    e.scrollIntoView({behavior:"smooth"});
+  }catch(e){
+    notify("❌ Evaluation failed: " + e.message, "err");
+  }finally{
+    if(btn) btn.disabled=false;
+  }
+}
+
+async function audit(btn){
+  try{
+    if(btn) btn.disabled=true;
+    notify("Loading tamper-evident audit trail...", "info");
+    const a=await api("/audit?limit=40");
+    const e=$("extra");
+    e.classList.remove("hid");
+    e.innerHTML=`<h3>Audit log <span class="pill ${a.integrity.valid?"ELIGIBLE":"INELIGIBLE"}">hash chain ${a.integrity.valid?"valid":"BROKEN"} (${a.integrity.entries})</span></h3><table>${a.entries.map(x=>`<tr><td class="mut">${x.ts.slice(0,19)}</td><td>${esc(x.actor)}</td><td>${esc(x.action)}</td><td>${esc(x.resource)}</td><td class="mut">${esc(x.detail)}</td></tr>`).join("")}</table>`;
+    notify(`✅ Audit trail verified (${a.integrity.entries} events, hash chain ${a.integrity.valid ? "valid" : "broken"})`, "ok");
+    e.scrollIntoView({behavior:"smooth"});
+  }catch(e){
+    notify("❌ Audit log fetch failed: " + e.message, "err");
+  }finally{
+    if(btn) btn.disabled=false;
+  }
+}
+</script></body></html>

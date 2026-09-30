@@ -1,0 +1,591 @@
+[
+ {
+  "id": "P001",
+  "demographics": {
+   "birth_date": "1968-04-12",
+   "sex": "female"
+  },
+  "conditions": [
+   {
+    "code": "E11.9",
+    "display": "Type 2 diabetes mellitus",
+    "onset": "2019-03-01",
+    "system": "ICD-10-CM",
+    "status": "active"
+   },
+   {
+    "code": "I10",
+    "display": "Essential hypertension",
+    "onset": "2015-06-01",
+    "system": "ICD-10-CM",
+    "status": "active"
+   }
+  ],
+  "labs": [
+   {
+    "name": "HbA1c",
+    "value": 8.4,
+    "unit": "%",
+    "date": "2026-08-10",
+    "loinc": "4548-4"
+   },
+   {
+    "name": "eGFR",
+    "value": 72,
+    "unit": "mL/min/1.73m2",
+    "date": "2026-07-15",
+    "loinc": "33914-3"
+   }
+  ],
+  "medications": [
+   {
+    "name": "Metformin 1000 mg",
+    "start": "2019-04-01",
+    "end": null
+   }
+  ],
+  "notes": [
+   {
+    "id": "P001-N1",
+    "date": "2026-08-10",
+    "text": "58F with T2DM well tolerating metformin. No history of myocardial infarction. Denies chest pain. HbA1c 8.4%."
+   }
+  ]
+ },
+ {
+  "id": "P002",
+  "demographics": {
+   "birth_date": "1981-02-20",
+   "sex": "male"
+  },
+  "conditions": [
+   {
+    "code": "E11.65",
+    "display": "Type 2 diabetes mellitus with hyperglycemia",
+    "onset": "2018-01-10",
+    "system": "ICD-10-CM",
+    "status": "active"
+   },
+   {
+    "code": "I21.4",
+    "display": "NSTEMI",
+    "onset": "2026-06-10",
+    "system": "ICD-10-CM",
+    "status": "active"
+   }
+  ],
+  "labs": [
+   {
+    "name": "HbA1c",
+    "value": 8.0,
+    "unit": "%",
+    "date": "2026-08-01",
+    "loinc": "4548-4"
+   },
+   {
+    "name": "eGFR",
+    "value": 80,
+    "unit": "mL/min/1.73m2",
+    "date": "2026-08-01",
+    "loinc": "33914-3"
+   }
+  ],
+  "medications": [
+   {
+    "name": "Metformin 500 mg",
+    "start": "2018-02-01",
+    "end": null
+   }
+  ],
+  "notes": [
+   {
+    "id": "P002-N1",
+    "date": "2026-06-12",
+    "text": "Admitted with NSTEMI, troponin elevated, underwent PCI with stent placement."
+   },
+   {
+    "id": "P002-N2",
+    "date": "2026-08-01",
+    "text": "Follow-up. T2DM stable on metformin."
+   }
+  ]
+ },
+ {
+  "id": "P003",
+  "demographics": {
+   "birth_date": "1963-09-30",
+   "sex": "female"
+  },
+  "conditions": [
+   {
+    "code": "E11.9",
+    "display": "Type 2 diabetes mellitus",
+    "onset": "2016-05-05",
+    "system": "ICD-10-CM",
+    "status": "active"
+   }
+  ],
+  "labs": [
+   {
+    "name": "HbA1c",
+    "value": 8.9,
+    "unit": "%",
+    "date": "2025-11-01",
+    "loinc": "4548-4"
+   }
+  ],
+  "medications": [
+   {
+    "name": "Metformin",
+    "start": "2016-06-01",
+    "end": null
+   }
+  ],
+  "notes": [
+   {
+    "id": "P003-N1",
+    "date": "2026-05-02",
+    "text": "Routine visit. Type 2 diabetes on metformin. Labs to be ordered."
+   }
+  ]
+ },
+ {
+  "id": "P004",
+  "demographics": {
+   "birth_date": "1975-01-15",
+   "sex": "male"
+  },
+  "conditions": [
+   {
+    "code": "E11.9",
+    "display": "Type 2 diabetes mellitus",
+    "onset": "2020-02-02",
+    "system": "ICD-10-CM",
+    "status": "active"
+   }
+  ],
+  "labs": [
+   {
+    "name": "HbA1c",
+    "value": 8.1,
+    "unit": "%",
+    "date": "2026-08-20",
+    "loinc": "4548-4"
+   },
+   {
+    "name": "eGFR",
+    "value": 90,
+    "unit": "mL/min/1.73m2",
+    "date": "2026-08-20",
+    "loinc": "33914-3"
+   }
+  ],
+  "medications": [
+   {
+    "name": "Metformin",
+    "start": "2020-03-01",
+    "end": null
+   }
+  ],
+  "notes": [
+   {
+    "id": "P004-N1",
+    "date": "2026-08-20",
+    "text": "Patient has type 1 diabetes, C-peptide undetectable, GAD antibodies positive. Chart lists E11 in error per endocrinology."
+   }
+  ]
+ },
+ {
+  "id": "P005",
+  "demographics": {
+   "birth_date": "1972-07-07",
+   "sex": "male"
+  },
+  "conditions": [
+   {
+    "code": "E11.9",
+    "display": "Type 2 diabetes mellitus",
+    "onset": "2017-04-04",
+    "system": "ICD-10-CM",
+    "status": "active"
+   },
+   {
+    "code": "I10",
+    "display": "Hypertension",
+    "onset": "2012-01-01",
+    "system": "ICD-10-CM",
+    "status": "active"
+   }
+  ],
+  "labs": [
+   {
+    "name": "HbA1c",
+    "value": 7.6,
+    "unit": "%",
+    "date": "2026-09-02",
+    "loinc": "4548-4"
+   },
+   {
+    "name": "eGFR",
+    "value": 65,
+    "unit": "mL/min/1.73m2",
+    "date": "2026-08-30",
+    "loinc": "33914-3"
+   }
+  ],
+  "medications": [
+   {
+    "name": "Metformin",
+    "start": "2017-05-01",
+    "end": null
+   }
+  ],
+  "notes": [
+   {
+    "id": "P005-N1",
+    "date": "2026-09-02",
+    "text": "Father had type 2 diabetes. Mother had heart failure. No history of myocardial infarction. Patient is not pregnant. Denies heart failure."
+   }
+  ]
+ },
+ {
+  "id": "P006",
+  "demographics": {
+   "birth_date": "1959-11-11",
+   "sex": "female"
+  },
+  "conditions": [
+   {
+    "code": "E11.9",
+    "display": "Type 2 diabetes mellitus",
+    "onset": "2014-08-08",
+    "system": "ICD-10-CM",
+    "status": "active"
+   }
+  ],
+  "labs": [
+   {
+    "name": "HbA1c",
+    "value": 9.0,
+    "unit": "%",
+    "date": "2026-08-15",
+    "loinc": "4548-4"
+   },
+   {
+    "name": "eGFR",
+    "value": 60,
+    "unit": "mL/min/1.73m2",
+    "date": "2026-08-15",
+    "loinc": "33914-3"
+   }
+  ],
+  "medications": [
+   {
+    "name": "Metformin",
+    "start": "2014-09-01",
+    "end": null
+   }
+  ],
+  "notes": [
+   {
+    "id": "P006-N1",
+    "date": "2026-08-15",
+    "text": "Echo shows moderate MI with LA enlargement; valve repair planned. T2DM on metformin."
+   }
+  ]
+ },
+ {
+  "id": "P007",
+  "demographics": {
+   "birth_date": "1957-03-03",
+   "sex": "female"
+  },
+  "conditions": [
+   {
+    "code": "250.00",
+    "display": "Diabetes mellitus without complication",
+    "onset": "2010-01-01",
+    "system": "ICD-9-CM",
+    "status": "active"
+   },
+   {
+    "code": "DM2-LEG",
+    "display": "Diabetes mellitus type II",
+    "onset": "2010-01-01",
+    "system": "LOCAL",
+    "status": "active"
+   }
+  ],
+  "labs": [
+   {
+    "name": "HbA1c",
+    "value": 64,
+    "unit": "mmol/mol",
+    "date": "2026-08-05",
+    "loinc": "4548-4"
+   },
+   {
+    "name": "eGFR",
+    "value": 55,
+    "unit": "mL/min/1.73m2",
+    "date": "2026-08-05",
+    "loinc": "33914-3"
+   }
+  ],
+  "medications": [
+   {
+    "name": "Glucophage 850 mg",
+    "start": "2010-02-01",
+    "end": null
+   }
+  ],
+  "notes": [
+   {
+    "id": "P007-N1",
+    "date": "2026-08-05",
+    "text": "Long-standing diabetes mellitus type II managed with Glucophage."
+   }
+  ]
+ },
+ {
+  "id": "P008",
+  "demographics": {
+   "birth_date": "1994-05-05",
+   "sex": "female"
+  },
+  "conditions": [
+   {
+    "code": "E11.9",
+    "display": "Type 2 diabetes mellitus",
+    "onset": "2021-01-01",
+    "system": "ICD-10-CM",
+    "status": "active"
+   },
+   {
+    "code": "Z33.1",
+    "display": "Pregnant state, incidental",
+    "onset": "2026-06-01",
+    "system": "ICD-10-CM",
+    "status": "active"
+   }
+  ],
+  "labs": [
+   {
+    "name": "HbA1c",
+    "value": 7.5,
+    "unit": "%",
+    "date": "2026-08-01",
+    "loinc": "4548-4"
+   },
+   {
+    "name": "eGFR",
+    "value": 100,
+    "unit": "mL/min/1.73m2",
+    "date": "2026-08-01",
+    "loinc": "33914-3"
+   }
+  ],
+  "medications": [
+   {
+    "name": "Metformin",
+    "start": "2021-02-01",
+    "end": null
+   }
+  ],
+  "notes": [
+   {
+    "id": "P008-N1",
+    "date": "2026-08-01",
+    "text": "Currently 14 weeks pregnant. T2DM on metformin."
+   }
+  ]
+ },
+ {
+  "id": "P009",
+  "demographics": {
+   "birth_date": "2010-06-06",
+   "sex": "male"
+  },
+  "conditions": [
+   {
+    "code": "E11.9",
+    "display": "Type 2 diabetes mellitus",
+    "onset": "2024-01-01",
+    "system": "ICD-10-CM",
+    "status": "active"
+   }
+  ],
+  "labs": [
+   {
+    "name": "HbA1c",
+    "value": 8.0,
+    "unit": "%",
+    "date": "2026-08-01",
+    "loinc": "4548-4"
+   },
+   {
+    "name": "eGFR",
+    "value": 110,
+    "unit": "mL/min/1.73m2",
+    "date": "2026-08-01",
+    "loinc": "33914-3"
+   }
+  ],
+  "medications": [
+   {
+    "name": "Metformin",
+    "start": "2024-02-01",
+    "end": null
+   }
+  ],
+  "notes": [
+   {
+    "id": "P009-N1",
+    "date": "2026-08-01",
+    "text": "16-year-old with T2DM on metformin."
+   }
+  ]
+ },
+ {
+  "id": "P010",
+  "demographics": {
+   "birth_date": "1960-08-08",
+   "sex": "male"
+  },
+  "conditions": [
+   {
+    "code": "E11.9",
+    "display": "Type 2 diabetes mellitus",
+    "onset": "2015-01-01",
+    "system": "ICD-10-CM",
+    "status": "active"
+   }
+  ],
+  "labs": [
+   {
+    "name": "HbA1c",
+    "value": 8.3,
+    "unit": "%",
+    "date": "2026-08-12",
+    "loinc": "4548-4"
+   },
+   {
+    "name": "eGFR",
+    "value": 38,
+    "unit": "mL/min/1.73m2",
+    "date": "2026-08-12",
+    "loinc": "33914-3"
+   }
+  ],
+  "medications": [
+   {
+    "name": "Metformin",
+    "start": "2015-02-01",
+    "end": null
+   }
+  ],
+  "notes": [
+   {
+    "id": "P010-N1",
+    "date": "2026-08-12",
+    "text": "T2DM and CKD. eGFR 38. SSN 123-45-6789 on file. Call 555-123-4567 for follow-up. Mr. Rajesh Kumar attended."
+   }
+  ]
+ },
+ {
+  "id": "P011",
+  "demographics": {
+   "birth_date": "1970-10-10",
+   "sex": "female"
+  },
+  "conditions": [],
+  "labs": [
+   {
+    "name": "HbA1c",
+    "value": 8.8,
+    "unit": "%",
+    "date": "2026-08-25",
+    "loinc": "4548-4"
+   },
+   {
+    "name": "eGFR",
+    "value": 70,
+    "unit": "mL/min/1.73m2",
+    "date": "2026-08-25",
+    "loinc": "33914-3"
+   }
+  ],
+  "medications": [
+   {
+    "name": "Metformin",
+    "start": "2025-11-01",
+    "end": null
+   }
+  ],
+  "notes": [
+   {
+    "id": "P011-N1",
+    "date": "2023-03-01",
+    "text": "Screening visit. Patient denies diabetes. Fasting labs normal."
+   },
+   {
+    "id": "P011-N2",
+    "date": "2026-01-20",
+    "text": "Newly diagnosed type 2 diabetes mellitus, started metformin."
+   }
+  ]
+ },
+ {
+  "id": "P012",
+  "demographics": {
+   "birth_date": "1966-12-12",
+   "sex": "male"
+  },
+  "conditions": [
+   {
+    "code": "E11.9",
+    "display": "Type 2 diabetes mellitus",
+    "onset": "2018-01-01",
+    "system": "ICD-10-CM",
+    "status": "active"
+   }
+  ],
+  "labs": [
+   {
+    "name": "HbA1c",
+    "value": 6.1,
+    "unit": "%",
+    "date": "2026-08-10",
+    "loinc": "4548-4"
+   },
+   {
+    "name": "HbA1c",
+    "value": 9.4,
+    "unit": "%",
+    "date": "2026-08-10",
+    "loinc": "4548-4"
+   },
+   {
+    "name": "eGFR",
+    "value": 75,
+    "unit": "mL/min/1.73m2",
+    "date": "2026-08-10",
+    "loinc": "33914-3"
+   }
+  ],
+  "medications": [
+   {
+    "name": "Metformin",
+    "start": "2018-02-01",
+    "end": null
+   }
+  ],
+  "notes": [
+   {
+    "id": "P012-N1",
+    "date": "2026-08-10",
+    "text": "T2DM on metformin. Two HbA1c results filed same day."
+   }
+  ]
+ }
+]

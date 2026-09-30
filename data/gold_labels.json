@@ -1,0 +1,97 @@
+{
+ "trial_id": "DIAB-201",
+ "as_of": "2026-09-30",
+ "labels": {
+  "P001": {
+   "decision": "ELIGIBLE",
+   "missing": []
+  },
+  "P002": {
+   "decision": "INELIGIBLE",
+   "missing": [],
+   "states": {
+    "E2": "TRUE"
+   }
+  },
+  "P003": {
+   "decision": "NEEDS_REVIEW",
+   "missing": [
+    "I3",
+    "I5"
+   ]
+  },
+  "P004": {
+   "decision": "NEEDS_REVIEW",
+   "missing": [
+    "I2",
+    "E1"
+   ],
+   "states": {
+    "I2": "CONFLICT",
+    "E1": "CONFLICT"
+   }
+  },
+  "P005": {
+   "decision": "ELIGIBLE",
+   "missing": [],
+   "states": {
+    "E2": "FALSE",
+    "E4": "FALSE"
+   }
+  },
+  "P006": {
+   "decision": "NEEDS_REVIEW",
+   "missing": [
+    "E2"
+   ],
+   "states": {
+    "E2": "UNKNOWN"
+   }
+  },
+  "P007": {
+   "decision": "ELIGIBLE",
+   "missing": [],
+   "states": {
+    "I2": "TRUE",
+    "I3": "TRUE"
+   }
+  },
+  "P008": {
+   "decision": "INELIGIBLE",
+   "missing": [],
+   "states": {
+    "E3": "TRUE"
+   }
+  },
+  "P009": {
+   "decision": "INELIGIBLE",
+   "missing": [],
+   "states": {
+    "I1": "FALSE"
+   }
+  },
+  "P010": {
+   "decision": "INELIGIBLE",
+   "missing": [],
+   "states": {
+    "I5": "FALSE"
+   }
+  },
+  "P011": {
+   "decision": "ELIGIBLE",
+   "missing": [],
+   "states": {
+    "I2": "TRUE"
+   }
+  },
+  "P012": {
+   "decision": "NEEDS_REVIEW",
+   "missing": [
+    "I3"
+   ],
+   "states": {
+    "I3": "CONFLICT"
+   }
+  }
+ }
+}

@@ -1,0 +1,25 @@
+groups:
+- name: trialmatch
+  rules:
+  - alert: HighErrorRate
+    expr: sum(rate(http_requests_total{status=~"5.."}[5m])) / sum(rate(http_requests_total[5m])) > 0.05
+    for: 5m
+    labels: {severity: page}
+    annotations: {summary: ">5% of requests failing"}
+  - alert: SlowMatching
+    expr: histogram_quantile(0.95, sum(rate(match_seconds_bucket[5m])) by (le)) > 1
+    for: 10m
+    labels: {severity: warn}
+    annotations: {summary: "p95 match latency > 1s"}
+  - alert: LoginFailureSpike
+    expr: increase(login_failures_total[5m]) > 20
+    labels: {severity: page}
+    annotations: {summary: "Possible credential-stuffing attack"}
+  - alert: EvalRegression
+    expr: eval_unsafe_errors > 0 or eval_eligible_false_positive_rate > 0
+    labels: {severity: page}
+    annotations: {summary: "Safety evaluation regression: ineligible patient marked ELIGIBLE"}
+  - alert: ReviewBacklog
+    expr: sum(match_decisions_total{decision="NEEDS_REVIEW"}) > 500
+    labels: {severity: info}
+    annotations: {summary: "Large NEEDS_REVIEW volume"}
